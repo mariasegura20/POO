@@ -6,16 +6,20 @@ using namespace std;
 
 class Fecha {
     public:
-        Fecha(int d = 0, int m = 0, int a = 0);
-        explicit Fecha(int) {}
-        Fecha(const Fecha& f) : dia_(f.dia_), mes_(f.mes_), anno_(f.anno_) {};
+    	static const int AnnoMinimo = 1902;
+        static const int AnnoMaximo = 2037;
+    
+        explicit Fecha(int d = 0, int m = 0, int a = 0);
         Fecha(const char * s);
+        Fecha(const Fecha& f);
         int dia() const;
         int mes() const;
         int anno() const;
         const Fecha& operator= (const Fecha& fecha);
-        const Fecha& operator++ ();
-        const Fecha& operator-- ();
+        Fecha operator++ (int d);
+        Fecha& operator++ ();
+        Fecha operator-- (int d);
+        Fecha& operator-- ();
         const Fecha& operator+ (int d);
         const Fecha& operator- (int d);
         const Fecha& operator+= (int d);
@@ -38,45 +42,48 @@ class Fecha {
 
     private:
         int dia_, mes_, anno_;
-        static const int AnnoMinimo = 1902;
-        static const int AnnoMaximo = 2037;
         void valida();
 };
 
-// Observadores "inline"
+// Observador del día
 inline int Fecha::dia() const { return dia_; }
 
+// Observador del mes
 inline int Fecha::mes() const { return mes_; }
 
+// Observador del año
 inline int Fecha::anno() const { return anno_; }
 
-// Sobrecarga de operadores aritméticos "inline"
-inline const Fecha& Fecha::operator++ () { return (*this += 1); }
-
-inline const Fecha& Fecha::operator-- () { return (*this += -1); }
-
+// Operador de suma
 inline const Fecha& Fecha::operator+ (int d) { return (*this += d); }
 
+// Operador de resta
 inline const Fecha& Fecha::operator- (int d) { return (*this += -d); }
 
+// Operador de resta en asignación
 inline const Fecha& Fecha::operator-= (int d) { return (*this += -d); }
 
-// Sobrecarga de operadores comparadores "inline"
+// Operador de igualdad
 inline bool operator==(const Fecha& fecha1, const Fecha& fecha2)
 { return (fecha1.dia_ == fecha2.dia_ && fecha1.mes_ == fecha2.mes_ && fecha1.anno_ == fecha2.anno_); }
 
+// Operador de desigualdad
 inline bool operator!=(const Fecha& fecha1, const Fecha& fecha2)
 { return (!(fecha1 == fecha2)); }
 
+// Operador de comparación menor que
 inline bool operator<(const Fecha& fecha1, const Fecha& fecha2)
 { return (fecha1.anno_ < fecha2.anno_ || (fecha1.anno_ == fecha2.anno_ && fecha1.mes_ < fecha2.mes_) || (fecha1.anno_ == fecha2.anno_ && fecha1.mes_ == fecha2.mes_ && fecha1.dia_ < fecha2.dia_)); }
 
+// Operador de comparación mayor que
 inline bool operator>(const Fecha& fecha1, const Fecha& fecha2)
 { return (!(fecha1 < fecha2) && !(fecha1 == fecha2)); }
 
+// Operador de comparación menor o igual que
 inline bool operator<=(const Fecha& fecha1, const Fecha& fecha2)
 { return (fecha1 < fecha2 || fecha1 == fecha2); }
 
+// Operador de comparación mayor o igual que
 inline bool operator>=(const Fecha& fecha1, const Fecha& fecha2)
 { return (!(fecha1 < fecha2)); }
 

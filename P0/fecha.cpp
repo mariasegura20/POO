@@ -1,9 +1,10 @@
 #include <iostream>
+#include <locale>
 #include "fecha.hpp"
 
 using namespace std;
 
-// Constructores
+// Constructor
 Fecha::Fecha(int d, int m, int a) : dia_(d), mes_(m), anno_(a)
 {
     if (d == 0 || m == 0 || a == 0) {
@@ -24,20 +25,94 @@ Fecha::Fecha(int d, int m, int a) : dia_(d), mes_(m), anno_(a)
     valida();
 }
 
+// Constructor de cadena de caracteres
 Fecha::Fecha(const char * s)
 {
     int nuevoDia, nuevoMes, nuevoAnno;
     sscanf(s, "%i/%i/%i", &nuevoDia, &nuevoMes, &nuevoAnno);
-
-    try{Fecha(nuevoDia, nuevoMes, nuevoAnno);}
+    try {
+        dia_ = nuevoDia;
+        mes_ = nuevoMes;
+        anno_ = nuevoAnno;
+        valida();
+    }
     catch(Fecha::Invalida e) {
         cerr << e.por_que() << endl;
     }
 }
 
-// Sobrecarga de operadores 
+// Constructor de copia
+Fecha::Fecha(const Fecha& f) : dia_(f.dia_), mes_(f.mes_), anno_(f.anno_) {};
+
+// Operador de asignación
+const Fecha& Fecha::operator= (const Fecha& fecha)
+{
+    this->dia_ = fecha.dia_;
+    this->mes_ = fecha.mes_;
+    this->anno_ = fecha.anno_;
+    return *this;
+}
+
+// Operador de postincremento
+Fecha Fecha::operator++ (int d)
+{
+	Fecha f;
+	f=*this;
+	*this+=1;
+	return f;
+}
+
+// Operador de preincremento
+Fecha& Fecha::operator++ ()
+{
+	*this += 1;
+	return *this;
+}
+
+// Operador de postdecremento
+Fecha Fecha::operator-- (int d)
+{
+	Fecha f;
+	f=*this;
+	*this-=1;
+	return f;
+}
+
+// Operador de predecremento
+Fecha& Fecha::operator-- ()
+{
+	*this -= 1;
+	return *this;
+}
+
+// Operador de suma en asignación
+const Fecha& Fecha::operator+= (int d)
+{
+    struct tm when;
+    when.tm_mday = dia_;
+    when.tm_mon = mes_ - 1;
+    when.tm_year = anno_ - 1900;
+    when.tm_mday = when.tm_mday + d;
+    
+    this->dia_ = when.tm_mday;
+    this->mes_ = when.tm_mon+1;
+    this->anno_ = when.tm_year + 1900;  
+    return *this;
+    
+    try {   
+        Fecha f(*this);
+        return *this;
+    }
+    catch (Fecha::Invalida e) {
+        cerr << e.por_que() << endl;
+    }
+}
+
+// Operador de inserción de flujo
 ostream& operator<<(ostream& os, const Fecha& fecha) {
-    struct tm f;
+    setlocale(LC_ALL, "es_ES.UTF-8");
+    time_t t = time(nullptr);
+    struct tm f = *localtime(&t);
     f.tm_mday = fecha.dia_;
     f.tm_mon = fecha.mes_ - 1;
     f.tm_year = fecha.anno_ - 1900;
@@ -47,35 +122,6 @@ ostream& operator<<(ostream& os, const Fecha& fecha) {
     os << fecha_str;
     return os;
 }
-
-const Fecha& Fecha::operator= (const Fecha& fecha)
-{
-    this->dia_ = fecha.dia_;
-    this->mes_ = fecha.mes_;
-    this->anno_ = fecha.anno_;
-    return *this;
-}
-
-const Fecha& Fecha::operator+= (int d)
-{
-    struct tm when;
-    when.tm_mday = dia_;
-    when.tm_mon = mes_ - 1;
-    when.tm_year = anno_ - 1900;
-    when.tm_mday = when.tm_mday + d;
-    try {
-        Fecha f(when.tm_mday, when.tm_mon+1, when.tm_year+1900);
-        this->dia_ = when.tm_mday;
-        this->mes_ = when.tm_mon+1;
-        this->anno_ = when.tm_year + 1900;
-        return *this;
-    }
-    catch (Fecha::Invalida e) {
-        cerr << e.por_que() << endl;
-    }
-}
-
-
 
 // Métodos privados
 void Fecha::valida()
