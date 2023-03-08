@@ -7,6 +7,8 @@ class Cadena {
         Cadena(const char * c);
         Cadena(const Cadena& cad);
         int length() const;
+        char at (unsigned int indice) const;
+        Cadena substr(unsigned int indice, unsigned int t) const;
 	operator const char*() const;
         const Cadena& operator+=(const Cadena& cad);
         const Cadena& operator+(const Cadena& cad1);
@@ -18,10 +20,9 @@ class Cadena {
         friend bool operator>(const Cadena& cad1, const Cadena& cad2);
         friend bool operator<=(const Cadena& cad1, const Cadena& cad2);
         friend bool operator>=(const Cadena& cad1, const Cadena& cad2);
-        char at (unsigned int indice);
 	char& operator[](unsigned int indice); // lectura/escritura
         char operator[](unsigned int indice) const; // lectura
-        Cadena substr(unsigned int indice, unsigned int t);
+        ~Cadena();
     private:
         char * s_;
         unsigned int tam_;

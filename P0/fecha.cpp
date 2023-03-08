@@ -45,7 +45,7 @@ Fecha::Fecha(const char * s)
 Fecha::Fecha(const Fecha& f) : dia_(f.dia_), mes_(f.mes_), anno_(f.anno_) {};
 
 // Operador de asignación
-const Fecha& Fecha::operator= (const Fecha& fecha)
+Fecha& Fecha::operator= (const Fecha& fecha)
 {
     this->dia_ = fecha.dia_;
     this->mes_ = fecha.mes_;
@@ -56,9 +56,9 @@ const Fecha& Fecha::operator= (const Fecha& fecha)
 // Operador de postincremento
 Fecha Fecha::operator++ (int d)
 {
-	Fecha f;
-	f=*this;
-	*this+=1;
+	Fecha f(*this);
+	d = 1;
+	f += d;
 	return f;
 }
 
@@ -72,9 +72,9 @@ Fecha& Fecha::operator++ ()
 // Operador de postdecremento
 Fecha Fecha::operator-- (int d)
 {
-	Fecha f;
-	f=*this;
-	*this-=1;
+	Fecha f(*this);
+	d = 1;
+	f += d;
 	return f;
 }
 
@@ -86,7 +86,7 @@ Fecha& Fecha::operator-- ()
 }
 
 // Operador de suma en asignación
-const Fecha& Fecha::operator+= (int d)
+Fecha& Fecha::operator+= (int d)
 {
     struct tm when;
     when.tm_mday = dia_;
@@ -97,7 +97,6 @@ const Fecha& Fecha::operator+= (int d)
     this->dia_ = when.tm_mday;
     this->mes_ = when.tm_mon+1;
     this->anno_ = when.tm_year + 1900;  
-    return *this;
     
     try {   
         Fecha f(*this);
@@ -108,8 +107,24 @@ const Fecha& Fecha::operator+= (int d)
     }
 }
 
+// Operador de suma (const)
+Fecha Fecha::operator+ (int d) const
+{
+	Fecha f(*this);
+	f+= d;
+	return f;
+}
+
+// Operador de resta (const)
+Fecha Fecha::operator- (int d) const
+{
+	Fecha f(*this);
+	f-= d;
+	return f;
+}
+
 // Operador de inserción de flujo
-ostream& operator<<(ostream& os, const Fecha& fecha) {
+/*ostream& operator<<(ostream& os, const Fecha& fecha) {
     setlocale(LC_ALL, "es_ES.UTF-8");
     time_t t = time(nullptr);
     struct tm f = *localtime(&t);
@@ -121,6 +136,13 @@ ostream& operator<<(ostream& os, const Fecha& fecha) {
     strftime(fecha_str, 80, "%A %e de %B de %Y", &f);
     os << fecha_str;
     return os;
+}*/
+
+Fecha::operator const char*()
+{
+	char * fecha_str = new char[11];
+	sprintf(fecha_str, "%02d/%02d/%04d", dia_, mes_, anno_);
+	return fecha_str;
 }
 
 // Métodos privados

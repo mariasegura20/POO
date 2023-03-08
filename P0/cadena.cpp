@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Constructor
 Cadena::Cadena(unsigned int t, char c) : tam_(t), s_(new char[tam_+1])
 {
     for (unsigned int i = 0 ; i < tam_ ; i++)
@@ -11,6 +12,7 @@ Cadena::Cadena(unsigned int t, char c) : tam_(t), s_(new char[tam_+1])
     s_[tam_] = '\0';
 };
 
+// COnstructor de cadena de caracteres
 Cadena::Cadena(const char * c) : tam_(0), s_(nullptr)
 {
     while (c[tam_] != '\0')
@@ -22,13 +24,14 @@ Cadena::Cadena(const char * c) : tam_(0), s_(nullptr)
     s_[tam_] = '\0';
 }
 
+// COnstructor de copia
 Cadena::Cadena(const Cadena& cad) : s_(cad.s_), tam_(cad.tam_)
 {
     for(unsigned int i = 0 ; i <= tam_ ; i++)
         s_[i] = cad.s_[i];
 }
 
-// Sobrecarga de operadores
+// Operador de suma en asignación
 const Cadena& Cadena::operator+=(const Cadena& cad)
 {
     Cadena concat(tam_+cad.tam_);
@@ -48,6 +51,7 @@ const Cadena& Cadena::operator+=(const Cadena& cad)
     return *this;
 }
 
+// Operador de igualdad entre cadenas
 bool operator==(const Cadena& cad1, const Cadena& cad2)
 {
     if(cad1.tam_ == cad2.tam_) {
@@ -65,12 +69,14 @@ bool operator==(const Cadena& cad1, const Cadena& cad2)
         return false;
 }
 
+// Operador de igualdad entre cadena y caracteres
 bool operator==(const char* s, const Cadena& cad)
 {
 	Cadena Aux(s);
 	return Aux == cad;
 }
 
+// Operador de comparación menor o igual
 bool operator<(const Cadena& cad1, const Cadena& cad2)
 {
     unsigned int i = min(cad1.tam_, cad2.tam_);
@@ -85,7 +91,8 @@ bool operator<(const Cadena& cad1, const Cadena& cad2)
     return menor;
 }
 
-char Cadena::at (unsigned int indice)
+// Observador at (devuelve el caracter que ocupa la posición índice)
+char Cadena::at (unsigned int indice) const
 {
     try {
         if (indice < tam_ -1)
@@ -98,7 +105,8 @@ char Cadena::at (unsigned int indice)
     }
 }
 
-Cadena Cadena::substr(unsigned int indice, unsigned int t)
+//Observador substr (devuelve la cadena que comienza en la posición indice y tiene un tamaño t)
+Cadena Cadena::substr(unsigned int indice, unsigned int t) const
 {
     try {
         if (indice + t < tam_) {
@@ -123,4 +131,10 @@ Cadena Cadena::substr(unsigned int indice, unsigned int t)
     catch(out_of_range e) {
         cerr << e.what() << endl;
     }
+}
+
+// Destructor
+Cadena::~Cadena()
+{
+	delete[] s_;
 }

@@ -15,16 +15,16 @@ class Fecha {
         int dia() const;
         int mes() const;
         int anno() const;
-        const Fecha& operator= (const Fecha& fecha);
+        Fecha& operator= (const Fecha& fecha);
         Fecha operator++ (int d);
         Fecha& operator++ ();
         Fecha operator-- (int d);
         Fecha& operator-- ();
-        const Fecha& operator+ (int d);
-        const Fecha& operator- (int d);
-        const Fecha& operator+= (int d);
-        const Fecha& operator-= (int d);
-        friend ostream& operator<<(ostream& os, const Fecha& fecha);
+        Fecha operator+ (int d) const;
+        Fecha operator- (int d) const;
+        Fecha& operator += (int d);
+        Fecha& operator -= (int d);
+        operator const char*();
         friend bool operator==(const Fecha& fecha1, const Fecha& fecha2);
         friend bool operator!=(const Fecha& fecha1, const Fecha& fecha2);
         friend bool operator<(const Fecha& fecha1, const Fecha& fecha2);
@@ -54,14 +54,8 @@ inline int Fecha::mes() const { return mes_; }
 // Observador del año
 inline int Fecha::anno() const { return anno_; }
 
-// Operador de suma
-inline const Fecha& Fecha::operator+ (int d) { return (*this += d); }
-
-// Operador de resta
-inline const Fecha& Fecha::operator- (int d) { return (*this += -d); }
-
 // Operador de resta en asignación
-inline const Fecha& Fecha::operator-= (int d) { return (*this += -d); }
+inline Fecha& Fecha::operator-= (int d) { return (*this += -d); }
 
 // Operador de igualdad
 inline bool operator==(const Fecha& fecha1, const Fecha& fecha2)
