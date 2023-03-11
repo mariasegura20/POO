@@ -88,17 +88,19 @@ Fecha& Fecha::operator-- ()
 // Operador de suma en asignación
 Fecha& Fecha::operator+= (int d)
 {
-    struct tm when;
+    struct tm when = {0};
     when.tm_mday = dia_;
     when.tm_mon = mes_ - 1;
     when.tm_year = anno_ - 1900;
-    when.tm_mday = when.tm_mday + d;
-    
+    when.tm_mday += d;
+
+    mktime(&when);
+
     this->dia_ = when.tm_mday;
-    this->mes_ = when.tm_mon+1;
-    this->anno_ = when.tm_year + 1900;  
-    
-    try {   
+    this->mes_ = when.tm_mon + 1;
+    this->anno_ = when.tm_year + 1900;
+
+    try {
         Fecha f(*this);
         return *this;
     }
@@ -138,7 +140,7 @@ Fecha Fecha::operator- (int d) const
     return os;
 }*/
 
-Fecha::operator const char*()
+Fecha::operator const char*() const
 {
 	char * fecha_str = new char[11];
 	sprintf(fecha_str, "%02d/%02d/%04d", dia_, mes_, anno_);

@@ -24,13 +24,13 @@ class Fecha {
         Fecha operator- (int d) const;
         Fecha& operator += (int d);
         Fecha& operator -= (int d);
-        operator const char*();
-        friend bool operator==(const Fecha& fecha1, const Fecha& fecha2);
-        friend bool operator!=(const Fecha& fecha1, const Fecha& fecha2);
-        friend bool operator<(const Fecha& fecha1, const Fecha& fecha2);
-        friend bool operator>(const Fecha& fecha1, const Fecha& fecha2);
-        friend bool operator>=(const Fecha& fecha1, const Fecha& fecha2);
-        friend bool operator<=(const Fecha& fecha1, const Fecha& fecha2);
+        operator const char*() const;
+        bool operator==(const Fecha& fecha) const;
+        bool operator!=(const Fecha& fecha) const;
+        bool operator<(const Fecha& fecha) const;
+        bool operator>(const Fecha& fecha) const;
+        bool operator>=(const Fecha& fecha) const;
+        bool operator<=(const Fecha& fecha) const;
         
         class Invalida {
             public:
@@ -58,28 +58,28 @@ inline int Fecha::anno() const { return anno_; }
 inline Fecha& Fecha::operator-= (int d) { return (*this += -d); }
 
 // Operador de igualdad
-inline bool operator==(const Fecha& fecha1, const Fecha& fecha2)
-{ return (fecha1.dia_ == fecha2.dia_ && fecha1.mes_ == fecha2.mes_ && fecha1.anno_ == fecha2.anno_); }
+inline bool Fecha::operator==(const Fecha& fecha) const
+{ return (dia_ == fecha.dia() && mes_ == fecha.mes() && anno_ == fecha.anno()); }
 
 // Operador de desigualdad
-inline bool operator!=(const Fecha& fecha1, const Fecha& fecha2)
-{ return (!(fecha1 == fecha2)); }
+inline bool Fecha::operator!=(const Fecha& fecha) const
+{ return (!(*this == fecha)); }
 
 // Operador de comparación menor que
-inline bool operator<(const Fecha& fecha1, const Fecha& fecha2)
-{ return (fecha1.anno_ < fecha2.anno_ || (fecha1.anno_ == fecha2.anno_ && fecha1.mes_ < fecha2.mes_) || (fecha1.anno_ == fecha2.anno_ && fecha1.mes_ == fecha2.mes_ && fecha1.dia_ < fecha2.dia_)); }
+inline bool Fecha::operator<(const Fecha& fecha) const
+{ return (anno_ < fecha.anno() || (anno_ == fecha.anno() && mes_ < fecha.mes()) || (anno_ == fecha.anno() && mes_ == fecha.mes() && dia_ < fecha.dia())); }
 
 // Operador de comparación mayor que
-inline bool operator>(const Fecha& fecha1, const Fecha& fecha2)
-{ return (!(fecha1 < fecha2) && !(fecha1 == fecha2)); }
+inline bool Fecha::operator>(const Fecha& fecha) const
+{ return (!(*this < fecha) && !(*this == fecha)); }
 
 // Operador de comparación menor o igual que
-inline bool operator<=(const Fecha& fecha1, const Fecha& fecha2)
-{ return (fecha1 < fecha2 || fecha1 == fecha2); }
+inline bool Fecha::operator<=(const Fecha& fecha) const
+{ return (*this < fecha || *this == fecha); }
 
 // Operador de comparación mayor o igual que
-inline bool operator>=(const Fecha& fecha1, const Fecha& fecha2)
-{ return (!(fecha1 < fecha2)); }
+inline bool Fecha::operator>=(const Fecha& fecha) const
+{ return (!(*this < fecha)); }
 
 /*** Clase Invalida ***/
 inline const char * Fecha::Invalida::por_que() const { return (motivo); }
