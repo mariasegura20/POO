@@ -22,7 +22,7 @@ endif
 
 # Compilador.
 
-override CXX = clang++
+override CXX = g++
 
 # Opciones para el preprocesador.
 
