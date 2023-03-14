@@ -11,11 +11,9 @@ class Fecha {
     
         explicit Fecha(int d = 0, int m = 0, int a = 0);
         Fecha(const char * s);
-        Fecha(const Fecha& f);
         int dia() const;
         int mes() const;
         int anno() const;
-        Fecha& operator= (const Fecha& fecha);
         Fecha operator++ (int d);
         Fecha& operator++ ();
         Fecha operator-- (int d);
@@ -24,7 +22,7 @@ class Fecha {
         Fecha operator- (int d) const;
         Fecha& operator += (int d);
         Fecha& operator -= (int d);
-        operator const char*() const;
+	operator const char*() const;
         bool operator==(const Fecha& fecha) const;
         bool operator!=(const Fecha& fecha) const;
         bool operator<(const Fecha& fecha) const;
@@ -54,9 +52,6 @@ inline int Fecha::mes() const { return mes_; }
 // Observador del año
 inline int Fecha::anno() const { return anno_; }
 
-// Operador de resta en asignación
-inline Fecha& Fecha::operator-= (int d) { return (*this += -d); }
-
 // Operador de igualdad
 inline bool Fecha::operator==(const Fecha& fecha) const
 { return (dia_ == fecha.dia() && mes_ == fecha.mes() && anno_ == fecha.anno()); }
@@ -82,6 +77,7 @@ inline bool Fecha::operator>=(const Fecha& fecha) const
 { return (!(*this < fecha)); }
 
 /*** Clase Invalida ***/
-inline const char * Fecha::Invalida::por_que() const { return (motivo); }
+inline const char * Fecha::Invalida::por_que() const
+{ return (motivo); }
 
 #endif

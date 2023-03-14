@@ -1,13 +1,14 @@
 #include <iostream>
 #include <stdexcept>
 #include "cadena.hpp"
+#include <cstdio>
 
 using namespace std;
 
 // Constructor
-Cadena::Cadena(unsigned int t, char c) : tam_(t), s_(new char[tam_+1])
+Cadena::Cadena(size_t t /* = 0*/, char c /* = ' '*/) : tam_(t), s_(new char[tam_+1])
 {
-    for (unsigned int i = 0 ; i < tam_ ; i++)
+    for (size_t i = 0 ; i < tam_ ; i++)
         s_[i] = c;
     s_[tam_] = '\0';
 };
@@ -52,6 +53,14 @@ Cadena& Cadena::operator+=(const Cadena& cad)
     return *this;
 }
 
+// Operador de suma
+const Cadena Cadena::operator+(const Cadena& cad) const
+{ 
+    Cadena copia(*this);
+    copia += cad;
+    return copia;
+}
+
 // Observador at (devuelve el caracter que ocupa la posición índice)
 char& Cadena::at (unsigned int indice)
 {
@@ -70,31 +79,27 @@ const char& Cadena::at (unsigned int indice) const
 }
 
 //Observador substr (devuelve la cadena que comienza en la posición indice y tiene un tamaño t)
-Cadena Cadena::substr(unsigned int indice, unsigned int t) const
+Cadena Cadena::substr(int indice, int t) const
 {
-    try {
-        if (indice + t < tam_) {
-            char * s = new char[t+1];
-            unsigned int i = 0;
-            unsigned int fin = indice + t;
-            while (indice < fin)
-            {
-                s[i] = s_[indice];
-                i++;
-                indice++;
-            }
-            s[t] = '\0';
-            Cadena Return(s);
-            delete[] s;
-            return Return;
-        }
-        else {
-            throw out_of_range("ERROR! Índice fuera de rango");
-        }
+
+    if (indice + t <= tam_ && indice >= 0 && t >= 0) {
+    	char * s = new char[t+1];
+    	unsigned int i = 0;
+    	unsigned int fin = indice + t;
+    	while (indice < fin)
+    	{
+    	    s[i] = s_[indice];
+    	    i++;
+    	    indice++;
+    	}
+    	s[t] = '\0';
+    	Cadena Return(s);
+    	delete[] s;
+    	return Return;
     }
-    catch(out_of_range e) {
-        cerr << e.what() << endl;
-    }
+    else
+	throw out_of_range("ERROR! Índice fuera de rango");
+
 }
 
 // Destructor

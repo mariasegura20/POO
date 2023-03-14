@@ -5,13 +5,13 @@
 
 class Cadena {
     public:   
-        Cadena(unsigned int t = 0, char c = ' ');
+        explicit Cadena(size_t t = 0, char c = ' ');
         Cadena(const char * c);
         Cadena(const Cadena& cad);
         int length() const;
         char& at (unsigned int indice);
         const char& at (unsigned int indice) const;
-        Cadena substr(unsigned int indice, unsigned int t) const;
+        Cadena substr(int indice, int t) const;
         Cadena& operator= (const Cadena& cad);
 	explicit operator const char*() const;
         Cadena& operator+=(const Cadena& cad);
@@ -40,14 +40,6 @@ inline int Cadena::length() const { return(tam_); }
 // Operador de conversión
 inline Cadena::operator const char*() const
 { return s_; }
-
-// Operador de suma
-inline const Cadena Cadena::operator+(const Cadena& cad) const
-{ 
-    Cadena copia(*this);
-    copia += cad;
-    return copia;
-}
 
 // Operador de igualdad
 inline bool operator==(const Cadena& cad1, const Cadena& cad2)

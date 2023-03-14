@@ -1,5 +1,6 @@
 #include <iostream>
 #include <locale>
+#include <cstdio>
 #include "fecha.hpp"
 
 using namespace std;
@@ -29,36 +30,22 @@ Fecha::Fecha(int d, int m, int a) : dia_(d), mes_(m), anno_(a)
 Fecha::Fecha(const char * s)
 {
     int nuevoDia, nuevoMes, nuevoAnno;
-    sscanf(s, "%i/%i/%i", &nuevoDia, &nuevoMes, &nuevoAnno);
-    try {
-        dia_ = nuevoDia;
-        mes_ = nuevoMes;
-        anno_ = nuevoAnno;
-        valida();
+    int n = sscanf(s, "%d/%d/%d", &nuevoDia, &nuevoMes, &nuevoAnno);
+    if (n != 3)
+	throw Fecha::Invalida("ERROR! Formato incorrecto");
+    else {
+    	Fecha f(nuevoDia, nuevoMes, nuevoAnno);
+	dia_ = f.dia();
+	mes_ = f.mes();
+	anno_ = f.anno();
     }
-    catch(Fecha::Invalida e) {
-        cerr << e.por_que() << endl;
-    }
-}
-
-// Constructor de copia
-Fecha::Fecha(const Fecha& f) : dia_(f.dia_), mes_(f.mes_), anno_(f.anno_) {};
-
-// Operador de asignación
-Fecha& Fecha::operator= (const Fecha& fecha)
-{
-    this->dia_ = fecha.dia_;
-    this->mes_ = fecha.mes_;
-    this->anno_ = fecha.anno_;
-    return *this;
 }
 
 // Operador de postincremento
 Fecha Fecha::operator++ (int d)
 {
 	Fecha f(*this);
-	d = 1;
-	f += d;
+	++*this;
 	return f;
 }
 
@@ -66,6 +53,7 @@ Fecha Fecha::operator++ (int d)
 Fecha& Fecha::operator++ ()
 {
 	*this += 1;
+	valida();
 	return *this;
 }
 
@@ -73,8 +61,7 @@ Fecha& Fecha::operator++ ()
 Fecha Fecha::operator-- (int d)
 {
 	Fecha f(*this);
-	d = 1;
-	f += d;
+	--*this;
 	return f;
 }
 
@@ -82,6 +69,7 @@ Fecha Fecha::operator-- (int d)
 Fecha& Fecha::operator-- ()
 {
 	*this -= 1;
+	valida();
 	return *this;
 }
 
@@ -100,14 +88,17 @@ Fecha& Fecha::operator+= (int d)
     this->mes_ = when.tm_mon + 1;
     this->anno_ = when.tm_year + 1900;
 
-    try {
-        Fecha f(*this);
-        return *this;
-    }
-    catch (Fecha::Invalida e) {
-        cerr << e.por_que() << endl;
-    }
+    valida();
+    return *this;
 }
+
+// Operador de resta en asignación
+Fecha& Fecha::operator-= (int d) {
+    *this += -d;
+    valida();
+    return (*this);
+}
+
 
 // Operador de suma (const)
 Fecha Fecha::operator+ (int d) const
