@@ -8,7 +8,7 @@ class Cadena {
         explicit Cadena(size_t t = 0, char c = ' ');
         Cadena(const char * c);
         Cadena(const Cadena& cad);
-        unsigned int length() const;
+        unsigned int length() const noexcept;
         char& at (int indice);
         const char& at (int indice) const;
         Cadena substr(int indice, int t) const;
@@ -35,7 +35,7 @@ inline Cadena::Cadena(const Cadena& cad) : tam_(cad.tam_), s_(new char[tam_+1])
 { strcpy(s_, cad.s_); }
 
 // Observador de tamaño
-inline unsigned int Cadena::length() const { return(tam_); }
+inline unsigned int Cadena::length() const noexcept{ return(tam_); }
 
 // Operador de conversión
 inline Cadena::operator const char*() const

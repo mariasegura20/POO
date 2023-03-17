@@ -11,9 +11,9 @@ class Fecha {
     
         explicit Fecha(int d = 0, int m = 0, int a = 0);
         Fecha(const char * s);
-        int dia() const;
-        int mes() const;
-        int anno() const;
+        int dia() const noexcept;
+        int mes() const noexcept;
+        int anno() const noexcept;
         Fecha operator++ (int);
         Fecha& operator++ ();
         Fecha operator-- (int);
@@ -44,13 +44,13 @@ class Fecha {
 };
 
 // Observador del día
-inline int Fecha::dia() const { return dia_; }
+inline int Fecha::dia() const noexcept { return dia_; }
 
 // Observador del mes
-inline int Fecha::mes() const { return mes_; }
+inline int Fecha::mes() const noexcept { return mes_; }
 
 // Observador del año
-inline int Fecha::anno() const { return anno_; }
+inline int Fecha::anno() const noexcept { return anno_; }
 
 // Operador de igualdad
 inline bool Fecha::operator==(const Fecha& fecha) const

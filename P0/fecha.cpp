@@ -124,7 +124,7 @@ Fecha::operator const char*() const
 	f.tm_mon = mes_ - 1;
 	f.tm_year = anno_ - 1900;
 	mktime(&f);
-	char * fecha_str = new char [80];
+	static char * fecha_str = new char [80];
 	strftime(fecha_str, 80, "%A %e de %B de %Y", &f);
 	return fecha_str;
 }
