@@ -8,9 +8,9 @@ class Cadena {
         explicit Cadena(size_t t = 0, char c = ' ');
         Cadena(const char * c);
         Cadena(const Cadena& cad);
-        int length() const;
-        char& at (unsigned int indice);
-        const char& at (unsigned int indice) const;
+        unsigned int length() const;
+        char& at (int indice);
+        const char& at (int indice) const;
         Cadena substr(int indice, int t) const;
         Cadena& operator= (const Cadena& cad);
 	explicit operator const char*() const;
@@ -26,8 +26,8 @@ class Cadena {
         char operator[](unsigned int indice) const; // lectura
         ~Cadena();
     private:
+        int tam_;
         char * s_;
-        unsigned int tam_;
 };
 
 // Constructor de copia
@@ -35,7 +35,7 @@ inline Cadena::Cadena(const Cadena& cad) : tam_(cad.tam_), s_(new char[tam_+1])
 { strcpy(s_, cad.s_); }
 
 // Observador de tamaño
-inline int Cadena::length() const { return(tam_); }
+inline unsigned int Cadena::length() const { return(tam_); }
 
 // Operador de conversión
 inline Cadena::operator const char*() const

@@ -8,7 +8,7 @@ using namespace std;
 // Constructor
 Cadena::Cadena(size_t t /* = 0*/, char c /* = ' '*/) : tam_(t), s_(new char[tam_+1])
 {
-    for (size_t i = 0 ; i < tam_ ; i++)
+    for (int i = 0 ; i < tam_ ; i++)
         s_[i] = c;
     s_[tam_] = '\0';
 };
@@ -62,7 +62,7 @@ const Cadena Cadena::operator+(const Cadena& cad) const
 }
 
 // Observador at (devuelve el caracter que ocupa la posición índice)
-char& Cadena::at (unsigned int indice)
+char& Cadena::at (int indice)
 {
     if (indice < tam_)
         return s_[indice];
@@ -70,7 +70,7 @@ char& Cadena::at (unsigned int indice)
         throw out_of_range("ERROR! Índice fuera de rango");
 }
 
-const char& Cadena::at (unsigned int indice) const
+const char& Cadena::at (int indice) const
 {
     if (indice < tam_)
         return s_[indice];
@@ -84,8 +84,8 @@ Cadena Cadena::substr(int indice, int t) const
 
     if (indice + t <= tam_ && indice >= 0 && t >= 0) {
     	char * s = new char[t+1];
-    	unsigned int i = 0;
-    	unsigned int fin = indice + t;
+    	int i = 0;
+    	int fin = indice + t;
     	while (indice < fin)
     	{
     	    s[i] = s_[indice];

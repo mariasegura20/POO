@@ -17,7 +17,7 @@ DIRTESTS = ../Tests-auto
 
 # Compilador y sus opciones.
 
-CXX = g++
+CXX = clang++
 STD = c++17
 
 CPPFLAGS := -I${DIRTESTS} -I. -D$P

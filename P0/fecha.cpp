@@ -42,7 +42,7 @@ Fecha::Fecha(const char * s)
 }
 
 // Operador de postincremento
-Fecha Fecha::operator++ (int d)
+Fecha Fecha::operator++ (int)
 {
 	Fecha f(*this);
 	++*this;
@@ -58,7 +58,7 @@ Fecha& Fecha::operator++ ()
 }
 
 // Operador de postdecremento
-Fecha Fecha::operator-- (int d)
+Fecha Fecha::operator-- (int)
 {
 	Fecha f(*this);
 	--*this;
@@ -76,7 +76,7 @@ Fecha& Fecha::operator-- ()
 // Operador de suma en asignación
 Fecha& Fecha::operator+= (int d)
 {
-    struct tm when = {0};
+    struct tm when = {};
     when.tm_mday = dia_;
     when.tm_mon = mes_ - 1;
     when.tm_year = anno_ - 1900;
@@ -116,25 +116,16 @@ Fecha Fecha::operator- (int d) const
 	return f;
 }
 
-// Operador de inserción de flujo
-/*ostream& operator<<(ostream& os, const Fecha& fecha) {
-    setlocale(LC_ALL, "es_ES.UTF-8");
-    time_t t = time(nullptr);
-    struct tm f = *localtime(&t);
-    f.tm_mday = fecha.dia_;
-    f.tm_mon = fecha.mes_ - 1;
-    f.tm_year = fecha.anno_ - 1900;
-    mktime(&f);
-    char fecha_str[80];
-    strftime(fecha_str, 80, "%A %e de %B de %Y", &f);
-    os << fecha_str;
-    return os;
-}*/
-
 Fecha::operator const char*() const
 {
-	char * fecha_str = new char[11];
-	sprintf(fecha_str, "%02d/%02d/%04d", dia_, mes_, anno_);
+	setlocale(LC_ALL, "es_ES.UTF-8");
+	struct tm f = {};
+	f.tm_mday = dia_;
+	f.tm_mon = mes_ - 1;
+	f.tm_year = anno_ - 1900;
+	mktime(&f);
+	char * fecha_str = new char [80];
+	strftime(fecha_str, 80, "%A %e de %B de %Y", &f);
 	return fecha_str;
 }
 

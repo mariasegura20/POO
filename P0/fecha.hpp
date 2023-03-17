@@ -14,9 +14,9 @@ class Fecha {
         int dia() const;
         int mes() const;
         int anno() const;
-        Fecha operator++ (int d);
+        Fecha operator++ (int);
         Fecha& operator++ ();
-        Fecha operator-- (int d);
+        Fecha operator-- (int);
         Fecha& operator-- ();
         Fecha operator+ (int d) const;
         Fecha operator- (int d) const;
