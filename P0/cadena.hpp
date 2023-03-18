@@ -16,12 +16,8 @@ class Cadena {
 	explicit operator const char*() const;
         Cadena& operator+=(const Cadena& cad);
         const Cadena operator+(const Cadena& cad1) const;
-        friend bool operator==(const Cadena& cad1, const Cadena& cad2);
-        friend bool operator!=(const Cadena& cad1, const Cadena& cad2);
-        friend bool operator<(const Cadena& cad1, const Cadena& cad2);
-        friend bool operator>(const Cadena& cad1, const Cadena& cad2);
-        friend bool operator<=(const Cadena& cad1, const Cadena& cad2);
-        friend bool operator>=(const Cadena& cad1, const Cadena& cad2);
+        bool operator==(const Cadena& cad) const;
+        bool operator<(const Cadena& cad) const;
 	char& operator[](unsigned int indice); // lectura/escritura
         char operator[](unsigned int indice) const; // lectura
         ~Cadena();
@@ -29,6 +25,12 @@ class Cadena {
         int tam_;
         char * s_;
 };
+
+bool operator!=(const Cadena& cad1, const Cadena& cad2);
+bool operator>(const Cadena& cad1, const Cadena& cad2);
+bool operator<=(const Cadena& cad1, const Cadena& cad2);
+bool operator>=(const Cadena& cad1, const Cadena& cad2);
+bool operator==(const char* s, const Cadena& cad);
 
 // Constructor de copia
 inline Cadena::Cadena(const Cadena& cad) : tam_(cad.tam_), s_(new char[tam_+1])
@@ -42,16 +44,19 @@ inline Cadena::operator const char*() const
 { return s_; }
 
 // Operador de igualdad
-inline bool operator==(const Cadena& cad1, const Cadena& cad2)
-{ return(strcmp(cad1.s_, cad2.s_) == 0); }
+inline bool Cadena::operator==(const Cadena& cad) const
+{ return(strcmp(s_, cad.s_) == 0); }
+
+inline bool operator==(const char* s, const Cadena& cad)
+{ return Cadena(s) == cad; }
 
 // Operador de desigualdad
 inline bool operator!=(const Cadena& cad1, const Cadena& cad2)
 { return (!(cad1 == cad2)); }
 
 // Operador de comparación menor que
-inline bool operator<(const Cadena& cad1, const Cadena& cad2)
-{ return(strcmp(cad1.s_, cad2.s_) < 0); }
+inline bool Cadena::operator<(const Cadena& cad) const
+{ return(strcmp(s_, cad.s_) < 0); }
 
 // Operador de comparación mayor que
 inline bool operator>(const Cadena& cad1, const Cadena& cad2)

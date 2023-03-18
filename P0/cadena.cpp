@@ -1,7 +1,7 @@
 #include <iostream>
+#include <cstdio>
 #include <stdexcept>
 #include "cadena.hpp"
-#include <cstdio>
 
 using namespace std;
 
