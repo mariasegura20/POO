@@ -18,10 +18,10 @@ class Fecha {
         Fecha& operator++ ();
         Fecha operator-- (int);
         Fecha& operator-- ();
-        Fecha operator+ (int d) const;
-        Fecha operator- (int d) const;
-        Fecha& operator += (int d);
-        Fecha& operator -= (int d);
+        Fecha operator+ (int n) const;
+        Fecha operator- (int n) const;
+        Fecha& operator += (int n);
+        Fecha& operator -= (int n);
 	operator const char*() const;
         bool operator==(const Fecha& fecha) const;
         bool operator!=(const Fecha& fecha) const;

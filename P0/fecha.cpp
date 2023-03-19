@@ -42,15 +42,16 @@ Fecha::Fecha(const char * s)
 }
 
 // Operador de postincremento
-Fecha Fecha::operator++ (int)
+Fecha Fecha::operator++ (int) 
 {
-	Fecha f(*this);
-	++*this;
-	return f;
+	Fecha t(*this);
+	*this += 1;
+	valida();
+	return t;
 }
 
 // Operador de preincremento
-Fecha& Fecha::operator++ ()
+Fecha& Fecha::operator++ () 
 {
 	*this += 1;
 	valida();
@@ -58,29 +59,46 @@ Fecha& Fecha::operator++ ()
 }
 
 // Operador de postdecremento
-Fecha Fecha::operator-- (int)
+Fecha Fecha::operator-- (int) 
 {
-	Fecha f(*this);
-	--*this;
-	return f;
+	Fecha t(*this);
+	*this += -1;
+	valida();
+	return t;
 }
 
 // Operador de predecremento
-Fecha& Fecha::operator-- ()
+Fecha& Fecha::operator-- () 
 {
-	*this -= 1;
+	*this += -1;
 	valida();
 	return *this;
 }
 
+// Operador de suma (const)
+Fecha Fecha::operator+ (int n) const
+{
+	Fecha t(*this);
+	t += n;
+	return t;
+}
+
+// Operador de resta (const)
+Fecha Fecha::operator- (int n) const
+{
+	Fecha t(*this);
+	t += -n;
+	return t;
+}
+
 // Operador de suma en asignación
-Fecha& Fecha::operator+= (int d)
+Fecha& Fecha::operator+= (int n)
 {
     struct tm when = {};
     when.tm_mday = dia_;
     when.tm_mon = mes_ - 1;
     when.tm_year = anno_ - 1900;
-    when.tm_mday += d;
+    when.tm_mday += n;
 
     mktime(&when);
 
@@ -93,29 +111,14 @@ Fecha& Fecha::operator+= (int d)
 }
 
 // Operador de resta en asignación
-Fecha& Fecha::operator-= (int d) {
-    *this += -d;
+Fecha& Fecha::operator-= (int n)
+{
+    *this += -n;
     valida();
     return (*this);
 }
 
-
-// Operador de suma (const)
-Fecha Fecha::operator+ (int d) const
-{
-	Fecha f(*this);
-	f+= d;
-	return f;
-}
-
-// Operador de resta (const)
-Fecha Fecha::operator- (int d) const
-{
-	Fecha f(*this);
-	f-= d;
-	return f;
-}
-
+// Operador de conversión
 Fecha::operator const char*() const
 {
 	setlocale(LC_ALL, "es_ES.UTF-8");
