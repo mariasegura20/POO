@@ -50,6 +50,13 @@ class Fecha {
 		void valida();
 };
 
+bool operator==(const char * s, const Fecha& f);
+bool operator!=(const char * s, const Fecha& f);
+bool operator<(const char * s, const Fecha& f);
+bool operator>(const char * s, const Fecha& f);
+bool operator<=(const char * s, const Fecha& f);
+bool operator>=(const char * s, const Fecha& f);
+
 /***** OBSERVADORES *****/
 // Dia
 inline int Fecha::dia() const noexcept
@@ -68,25 +75,43 @@ inline int Fecha::anno() const noexcept
 inline bool Fecha::operator==(const Fecha& fecha) const
 { return (dia_ == fecha.dia() && mes_ == fecha.mes() && anno_ == fecha.anno()); }
 
+inline bool operator==(const char * s, const Fecha& f)
+{ return Fecha(s) == f; }
+
 // Operador de desigualdad
 inline bool Fecha::operator!=(const Fecha& fecha) const
 { return (!(*this == fecha)); }
+
+inline bool operator!=(const char * s, const Fecha& f)
+{ return Fecha(s) != f; }
 
 // Operador de comparación menor que
 inline bool Fecha::operator<(const Fecha& fecha) const
 { return (anno_ < fecha.anno() || (anno_ == fecha.anno() && mes_ < fecha.mes()) || (anno_ == fecha.anno() && mes_ == fecha.mes() && dia_ < fecha.dia())); }
 
+inline bool operator<(const char * s, const Fecha& f)
+{ return Fecha(s) < f; }
+
 // Operador de comparación mayor que
 inline bool Fecha::operator>(const Fecha& fecha) const
 { return (!(*this < fecha) && !(*this == fecha)); }
+
+inline bool operator>(const char * s, const Fecha& f)
+{ return Fecha(s) > f; }
 
 // Operador de comparación menor o igual que
 inline bool Fecha::operator<=(const Fecha& fecha) const
 { return (*this < fecha || *this == fecha); }
 
+inline bool operator<=(const char * s, const Fecha& f)
+{ return Fecha(s) <= f; }
+
 // Operador de comparación mayor o igual que
 inline bool Fecha::operator>=(const Fecha& fecha) const
 { return (!(*this < fecha)); }
+
+inline bool operator>=(const char * s, const Fecha& f) 
+{ return Fecha(s) >= f; }
 
 /***** CLASE INVALIDA *****/
 inline const char * Fecha::Invalida::por_que() const

@@ -18,8 +18,8 @@ class Cadena {
         const char& at (int indice) const;
         Cadena substr(int indice, int t) const;
         
-        // explicit operator const char*() const;
-        const char * c_str() const;
+        explicit operator const char*() const;
+        // const char * c_str() const;
 		
         Cadena& operator= (const Cadena& cad);
         Cadena& operator+=(const Cadena& cad);
@@ -52,11 +52,12 @@ class Cadena {
 ostream& operator<<(ostream& os, const Cadena& cad);
 istream& operator>>(istream& is, Cadena& cad);
 
+bool operator==(const char* s, const Cadena& cad);
 bool operator!=(const Cadena& cad1, const Cadena& cad2);
+bool operator<(const char* s, const Cadena& cad);
 bool operator>(const Cadena& cad1, const Cadena& cad2);
 bool operator<=(const Cadena& cad1, const Cadena& cad2);
 bool operator>=(const Cadena& cad1, const Cadena& cad2);
-bool operator==(const char* s, const Cadena& cad);
 
 /***** CONSTRUCTORES *****/
 // Constructor de copia
@@ -68,11 +69,11 @@ inline Cadena::Cadena(const Cadena& cad) : tam_(cad.tam_), s_(new char[tam_+1])
 inline unsigned int Cadena::length() const noexcept{ return(tam_); }
 
 // Operador de conversión
-// inline Cadena::operator const char*() const
-// { return s_; }
-
-inline const char * Cadena::c_str() const
+inline Cadena::operator const char*() const
 { return s_; }
+
+//inline const char * Cadena::c_str() const
+//{ return s_; }
 
 /***** OPERADORES *****/
 // Operador de igualdad
@@ -89,6 +90,9 @@ inline bool operator!=(const Cadena& cad1, const Cadena& cad2)
 // Operador de comparación menor que
 inline bool Cadena::operator<(const Cadena& cad) const
 { return(strcmp(s_, cad.s_) < 0); }
+
+inline bool operator<(const char* s, const Cadena& cad)
+{ return Cadena(s) == cad; }
 
 // Operador de comparación mayor que
 inline bool operator>(const Cadena& cad1, const Cadena& cad2)

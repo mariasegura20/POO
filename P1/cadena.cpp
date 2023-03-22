@@ -27,9 +27,8 @@ Cadena::Cadena(const char * c)
 Cadena::Cadena(Cadena&& cad) : tam_(cad.tam_), s_(cad.s_)
 {
 	cad.tam_ = 0;
-	delete[] cad.s_;
 	cad.s_ = new char[1];
-	s_[0] = '\0';
+	cad.s_[0] = '\0';
 }
 
 /***** OBSERVADORES *****/
@@ -92,7 +91,7 @@ ostream& operator<<(ostream& os, const Cadena& cad)
 {
 	//if (cad.length > 0)
 	//    os << cad.substr(0, cad.length()-1);
-	os << cad.c_str();
+	os << (const char *)cad;
     return os;
 }
 
