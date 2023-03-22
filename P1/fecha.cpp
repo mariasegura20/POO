@@ -141,12 +141,26 @@ const char* Fecha::cadena() const
 // Operador de extracción
 istream& operator>>(istream& is, Fecha& f)
 {
-	char * entrada = new char [80];
+	char entrada[80];
 	is >> entrada;
-	Fecha Aux (entrada);
-	f = Aux;
-	delete[] entrada;
-	return is;
+	int nuevoDia, nuevoMes, nuevoAnno;
+	int n = sscanf(entrada, "%02d/%02d/%04d", &nuevoDia, &nuevoMes, &nuevoAnno);
+	if (n != 3) {
+		is.setstate(ios::failbit);
+		throw Fecha::Invalida("ERROR! Formato incorrecto");
+	}
+	else
+	{
+		try {
+			Fecha Aux (entrada);
+			f = Aux;
+		}
+		catch (const Fecha::Invalida& e){
+			is.setstate(ios::failbit);
+			throw e;
+		}
+		return is;
+	}
 }
 
 // Operador de inserción

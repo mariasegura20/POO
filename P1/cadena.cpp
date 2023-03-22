@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <stdexcept>
+#include <iomanip>
 #include "cadena.hpp"
 
 using namespace std;
@@ -77,20 +78,26 @@ Cadena Cadena::substr(int indice, int t) const
 // Operador de extracción
 istream& operator>>(istream& is, Cadena& cad)
 {
-	char * entrada = new char [32];
-	is >> entrada;
-	// Coger solo la palabra...
-	Cadena Aux(entrada);
-	cad = Aux;
-	delete[] entrada;
-	return is;
+	char c;
+	while (is.get(c) && isspace(c));
+	if (!is) {
+		cad = "";
+		return is;
+	}
+	else {
+		is.putback(c);
+		char * entrada = new char [33];
+		is >> setw(33) >> entrada;
+		Cadena Aux(entrada);
+		cad = Aux;
+		delete[] entrada;
+		return is;
+	}
 }
 
 // Operador de inserción
 ostream& operator<<(ostream& os, const Cadena& cad)
 {
-	//if (cad.length > 0)
-	//    os << cad.substr(0, cad.length()-1);
 	os << (const char *)cad;
     return os;
 }
@@ -103,6 +110,20 @@ Cadena& Cadena::operator= (const Cadena& cad)
     	delete[] s_;
     	s_ = new char[tam_+1];
     	strcpy(s_, cad.s_);
+    }
+    return *this;
+}
+
+Cadena& Cadena::operator=(Cadena&& cad) 
+{
+	if (*this != cad) {
+    	tam_ = cad.tam_;
+    	delete[] s_;
+    	s_ = new char[tam_+1];
+    	strcpy(s_, cad.s_); 	
+   		cad.tam_ = 0;
+		cad.s_ = new char[1];
+		cad.s_[0] = '\0';
     }
     return *this;
 }
@@ -133,3 +154,7 @@ const Cadena Cadena::operator+(const Cadena& cad) const
     copia += cad;
     return copia;
 }
+
+/***** DESTRUCTOR *****/
+Cadena::~Cadena()
+{ delete[] s_; }

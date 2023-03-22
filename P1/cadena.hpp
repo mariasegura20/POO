@@ -19,9 +19,9 @@ class Cadena {
         Cadena substr(int indice, int t) const;
         
         explicit operator const char*() const;
-        // const char * c_str() const;
 		
         Cadena& operator= (const Cadena& cad);
+        Cadena& operator=(Cadena&& cad);
         Cadena& operator+=(const Cadena& cad);
         const Cadena operator+(const Cadena& cad1) const;
         bool operator==(const Cadena& cad) const;
@@ -72,9 +72,6 @@ inline unsigned int Cadena::length() const noexcept{ return(tam_); }
 inline Cadena::operator const char*() const
 { return s_; }
 
-//inline const char * Cadena::c_str() const
-//{ return s_; }
-
 /***** OPERADORES *****/
 // Operador de igualdad
 inline bool Cadena::operator==(const Cadena& cad) const
@@ -92,7 +89,7 @@ inline bool Cadena::operator<(const Cadena& cad) const
 { return(strcmp(s_, cad.s_) < 0); }
 
 inline bool operator<(const char* s, const Cadena& cad)
-{ return Cadena(s) == cad; }
+{ return Cadena(s) <= cad; }
 
 // Operador de comparación mayor que
 inline bool operator>(const Cadena& cad1, const Cadena& cad2)
@@ -135,9 +132,5 @@ inline Cadena::const_reverse_iterator Cadena::crbegin() const
 
 inline Cadena::const_reverse_iterator Cadena::crend() const
 { return const_reverse_iterator(begin()); }
-
-/***** DESTRUCTOR *****/
-inline Cadena::~Cadena()
-{ delete[] s_; }
 
 #endif
