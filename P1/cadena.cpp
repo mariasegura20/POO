@@ -90,7 +90,9 @@ istream& operator>>(istream& is, Cadena& cad)
 // Operador de inserción
 ostream& operator<<(ostream& os, const Cadena& cad)
 {
-    os << cad.substr(0, cad.length());
+	//if (cad.length > 0)
+	//    os << cad.substr(0, cad.length()-1);
+	os << cad.c_str();
     return os;
 }
 

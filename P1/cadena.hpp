@@ -19,29 +19,30 @@ class Cadena {
         Cadena substr(int indice, int t) const;
         
         // explicit operator const char*() const;
+        const char * c_str() const;
 		
         Cadena& operator= (const Cadena& cad);
         Cadena& operator+=(const Cadena& cad);
         const Cadena operator+(const Cadena& cad1) const;
         bool operator==(const Cadena& cad) const;
         bool operator<(const Cadena& cad) const;
-		char& operator[](unsigned int indice); // lectura/escritura
+	char& operator[](unsigned int indice); // lectura/escritura
         char operator[](unsigned int indice) const; // lectura
         
         typedef char * iterator;
-		typedef const char * const_iterator;
-		typedef std::reverse_iterator<iterator> reverse_iterator;
-		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
-		iterator begin() const;
-		iterator end() const;
-		const_iterator cbegin() const;
-		const_iterator cend() const;
-		reverse_iterator rbegin() const;
-		reverse_iterator rend() const;
-		const_reverse_iterator crbegin() const;
-		const_reverse_iterator crend() const;
-        
-		~Cadena();
+	typedef const char * const_iterator;
+	typedef std::reverse_iterator<iterator> reverse_iterator;
+	typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+	iterator begin() const;
+	iterator end() const;
+	const_iterator cbegin() const;
+	const_iterator cend() const;
+	reverse_iterator rbegin() const;
+	reverse_iterator rend() const;
+	const_reverse_iterator crbegin() const;
+	const_reverse_iterator crend() const;
+
+	~Cadena();
 		
     private:
         int tam_;
@@ -69,6 +70,9 @@ inline unsigned int Cadena::length() const noexcept{ return(tam_); }
 // Operador de conversión
 // inline Cadena::operator const char*() const
 // { return s_; }
+
+inline const char * Cadena::c_str() const
+{ return s_; }
 
 /***** OPERADORES *****/
 // Operador de igualdad
