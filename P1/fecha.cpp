@@ -5,7 +5,6 @@
 
 using namespace std;
 
-/***** CONSTRUCTORES *****/
 // Constructor
 Fecha::Fecha(int d, int m, int a) : dia_(d), mes_(m), anno_(a)
 {
@@ -44,7 +43,6 @@ Fecha::Fecha(const char * s)
 	}
 }
 
-/***** OPERADORES ARITMÉTICOS *****/
 // Operador de postincremento
 Fecha Fecha::operator++ (int) 
 {
@@ -121,7 +119,6 @@ Fecha& Fecha::operator-= (int n)
 	return *this;
 }
 
-/**** OPERADORES DE CONVERSIÓN  *****/
 // Operador de conversión
 const char* Fecha::cadena() const
 {
@@ -170,7 +167,7 @@ ostream& operator<<(ostream& os, const Fecha& f)
     return os;
 }
 
-/***** MÉTODOS PRIVADOS *****/
+// Métodos privados
 void Fecha::valida()
 {
 	if (anno_ < AnnoMinimo)

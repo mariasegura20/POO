@@ -2,7 +2,6 @@
 #define CADENA_HPP
 
 #include <cstring>
-#include <iterator>
 
 using namespace std;
 
@@ -12,23 +11,17 @@ class Cadena {
         Cadena(const char * c);
         Cadena(const Cadena& cad);
         Cadena(Cadena&& cad);
-        
         unsigned int length() const noexcept;
         char& at (int indice);
         const char& at (int indice) const;
         Cadena substr(int indice, int t) const;
-        
-        explicit operator const char*() const;
-		
-        Cadena& operator= (const Cadena& cad);
-        Cadena& operator=(Cadena&& cad);
+	explicit operator const char*() const;
+	Cadena& operator= (const Cadena& cad);
+	Cadena& operator= (Cadena&& cad);
         Cadena& operator+=(const Cadena& cad);
         const Cadena operator+(const Cadena& cad1) const;
-        bool operator==(const Cadena& cad) const;
-        bool operator<(const Cadena& cad) const;
 	char& operator[](unsigned int indice); // lectura/escritura
         char operator[](unsigned int indice) const; // lectura
-        
         typedef char * iterator;
 	typedef const char * const_iterator;
 	typedef std::reverse_iterator<iterator> reverse_iterator;
@@ -41,9 +34,7 @@ class Cadena {
 	reverse_iterator rend() const;
 	const_reverse_iterator crbegin() const;
 	const_reverse_iterator crend() const;
-
-	~Cadena();
-		
+        ~Cadena();
     private:
         int tam_;
         char * s_;
@@ -52,19 +43,17 @@ class Cadena {
 ostream& operator<<(ostream& os, const Cadena& cad);
 istream& operator>>(istream& is, Cadena& cad);
 
-bool operator==(const char* s, const Cadena& cad);
+bool operator==(const Cadena& cad1, const Cadena& cad2);
 bool operator!=(const Cadena& cad1, const Cadena& cad2);
-bool operator<(const char* s, const Cadena& cad);
+bool operator<(const Cadena& cad1, const Cadena& cad2);
 bool operator>(const Cadena& cad1, const Cadena& cad2);
 bool operator<=(const Cadena& cad1, const Cadena& cad2);
 bool operator>=(const Cadena& cad1, const Cadena& cad2);
 
-/***** CONSTRUCTORES *****/
 // Constructor de copia
 inline Cadena::Cadena(const Cadena& cad) : tam_(cad.tam_), s_(new char[tam_+1])
 { strcpy(s_, cad.s_); }
 
-/***** OBSERVADORES *****/
 // Observador de tamaño
 inline unsigned int Cadena::length() const noexcept{ return(tam_); }
 
@@ -72,24 +61,17 @@ inline unsigned int Cadena::length() const noexcept{ return(tam_); }
 inline Cadena::operator const char*() const
 { return s_; }
 
-/***** OPERADORES *****/
 // Operador de igualdad
-inline bool Cadena::operator==(const Cadena& cad) const
-{ return(strcmp(s_, cad.s_) == 0); }
-
-inline bool operator==(const char* s, const Cadena& cad)
-{ return Cadena(s) == cad; }
+inline bool operator==(const Cadena& cad1, const Cadena& cad2)
+{ return(strcmp ((const char*)(cad1.substr(0, cad1.length())), (const char*)(cad2.substr(0, cad2.length()))) == 0); }
 
 // Operador de desigualdad
 inline bool operator!=(const Cadena& cad1, const Cadena& cad2)
 { return (!(cad1 == cad2)); }
 
 // Operador de comparación menor que
-inline bool Cadena::operator<(const Cadena& cad) const
-{ return(strcmp(s_, cad.s_) < 0); }
-
-inline bool operator<(const char* s, const Cadena& cad)
-{ return Cadena(s) <= cad; }
+inline bool operator<(const Cadena& cad1, const Cadena& cad2)
+{ return(strcmp ((const char*)(cad1.substr(0, cad1.length())), (const char*)(cad2.substr(0, cad2.length()))) < 0); }
 
 // Operador de comparación mayor que
 inline bool operator>(const Cadena& cad1, const Cadena& cad2)
