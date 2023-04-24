@@ -2,6 +2,9 @@
 #define CADENA_HPP
 
 #include <cstring>
+#include <iostream>
+#include <iterator>
+#include <functional>
 
 using namespace std;
 
@@ -126,5 +129,19 @@ inline Cadena::const_reverse_iterator Cadena::crbegin() const
 
 inline Cadena::const_reverse_iterator Cadena::crend() const
 { return const_reverse_iterator(begin()); }
+
+namespace std {
+	template <>
+	struct hash<Cadena> {
+		size_t operator() (const Cadena& cad) const
+		{
+			hash<string> hs;
+			auto p{(const char*)(cad)};
+			string s{p};
+			size_t res{hs(s)};
+			return res;
+		}
+	};
+}
 
 #endif
