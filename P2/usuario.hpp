@@ -35,7 +35,6 @@ class Clave {
         };
     private:
         Cadena clave_;
-        char cifrado[2];
 };
 
 /*** Observadores ***/

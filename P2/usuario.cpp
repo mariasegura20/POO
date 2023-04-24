@@ -17,6 +17,7 @@ Clave::Clave(const char* claro) {
         random_device rd;
         uniform_int_distribution<int> dist(0,strlen(semilla));
 
+        char cifrado[2];
         cifrado[0] = semilla[dist(rd)];
         cifrado[1] = semilla[dist(rd)];
 
@@ -30,7 +31,7 @@ Clave::Clave(const char* claro) {
 /*** Observadores ***/
 bool Clave::verifica (const char * claro) const
 {
-    return (crypt(claro, cifrado) == clave_);
+    return (crypt(claro, clave_.operator const char *()) == clave_);
 }
 
 /*** CLASE USUARIO ***/
